@@ -96,20 +96,33 @@
             padding: 8px 16px; font-size: 10px; text-transform: uppercase;
             z-index: 100; display: none; border-radius: 2px;
         }
+
+        /*Footer */
+        /* Animação para o link de contato */
+        @keyframes contactGrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+        .animate-grow {
+            animation: contactGrow 0.4s ease;
+            display: inline-block; /* Necessário para o transform funcionar */
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="copy-toast">E-mail copiado</div>
 
-<nav class="fixed top-0 w-full z-50 px-6 py-8 md:px-12 md:py-10 flex justify-between items-start">
-        <div class="nav-name text-lg md:text-xl font-bold tracking-tighter uppercase italic leading-none flex flex-col">
+<nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-12 md:py-10 flex justify-between items-start">
+        <a href="index.html" class="nav-name text-lg md:text-xl font-bold tracking-tighter uppercase italic leading-none flex flex-col hover:opacity-80 transition-opacity">
             <div>Miguel</div>
             <div class="mermelstein"><div>Mer</div><div>mel</div><div>stein</div></div>
-        </div>
-        <div class="text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] flex gap-6">
+        </a>
+        
+        <div class="flex gap-6 items-center text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em]">
             <a href="data.html" class="hover:opacity-50 transition">Dados</a>
-            <a href="#contato" class="hover:opacity-50 transition">Contato</a>
+            <a href="#contato" onclick="animateContact(this)" class="hover:opacity-50 transition inline-block">Contato</a>
         </div>
     </nav>
 
@@ -215,6 +228,8 @@
     </main>
 
     <footer id="contato" class="bg-[#7F5539] text-[#EDE0D4] pt-32 pb-16 px-6 md:px-12 lg:px-32 relative z-50">
+        <p class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-8 opacity-50">Contato</p>
+        
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
             <button onclick="copyEmail()" class="text-xl md:text-5xl font-serif italic border-b border-[#EDE0D4] pb-2 hover:opacity-60 transition tracking-tighter text-left uppercase break-all">
                 miguelmermelstein@outlook.com
@@ -276,6 +291,14 @@
                 toast.style.display = 'block';
                 setTimeout(() => { toast.style.display = 'none'; }, 2000);
             });
+        }
+
+        function animateContact(el) {
+            el.classList.add('animate-grow');
+            // Remove a classe após a animação para poder repetir o efeito
+            setTimeout(() => {
+                el.classList.remove('animate-grow');
+            }, 400);
         }
     </script>
 </body>
