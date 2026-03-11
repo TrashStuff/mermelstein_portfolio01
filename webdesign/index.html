@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miguel Mermelstein | Web Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --bg-base: #EDE0D4; 
+            --text: #7F5539; 
+        }
+        
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Navbar Hover Effect - Removido o pointer e o link */
+        .nav-name .mermelstein div { display: inline-block; transition: opacity 0.3s ease; cursor: default; }
+        .nav-name:hover .mermelstein div { opacity: 0.2; }
+        .nav-name .mermelstein div:hover { opacity: 1 !important; }
+
+        /* Giant Typography */
+        .giant-text {
+            font-size: clamp(3.5rem, 15vw, 13rem);
+            line-height: 0.8;
+            letter-spacing: -0.06em;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: var(--text);
+            z-index: 25;
+            position: absolute;
+            pointer-events: none;
+            will-change: transform;
+            opacity: 1;
+        }
+
+        /* Hero List: Focus/Blur Animation */
+        .hero-anchors:hover a { opacity: 0.2; filter: blur(1px); }
+        .hero-anchors a {
+            font-size: clamp(0.9rem, 2vw, 1.4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: block;
+        }
+        .hero-anchors a:hover { 
+            opacity: 1 !important; 
+            filter: blur(0) !important;
+            transform: translateX(15px);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .hero-anchors a:hover { transform: translateX(5px); }
+            .giant-text { line-height: 0.9; }
+        }
+
+        /* Project Containers */
+        .img-container {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            background-color: rgba(127, 85, 57, 0.05);
+        }
+        .img-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(2%);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+        }
+        .img-container:hover img { filter: grayscale(0%); transform: scale(1.15); }
+        .gif-contain img { object-fit: contain !important; }
+
+        .desc-box { 
+            max-width: 320px; font-size: 0.9rem; line-height: 1.6; padding: 1.5rem;
+            background: rgba(237, 224, 212, 0.92); 
+            backdrop-filter: blur(10px);
+            border-left: 2px solid var(--text); 
+            z-index: 40;
+            position: relative;
+        }
+
+        #copy-toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--text); color: #EDE0D4;
+            padding: 8px 16px; font-size: 10px; text-transform: uppercase;
+            z-index: 100; display: none; border-radius: 2px;
+        }
+
+        /* Animação para o título de contato no footer */
+        @keyframes contactGrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+        .animate-grow {
+            animation: contactGrow 0.6s ease;
+            display: inline-block;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="copy-toast">E-mail copiado</div>
+
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-8 md:px-12 md:py-10 flex justify-between items-start">
+        <div class="nav-name text-lg md:text-xl font-bold tracking-tighter uppercase italic leading-none flex flex-col">
+            <div>Miguel</div>
+            <div class="mermelstein"><div>Mer</div><div>mel</div><div>stein</div></div>
+        </div>
+        
+        <div class="flex gap-6 items-center text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em]">
+            <a href="./data.html" class="hover:opacity-50 transition">Dados</a>
+            <a href="#contato" onclick="animateFooterLabel()" class="hover:opacity-50 transition">Contato</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center px-6 md:px-12 lg:px-32 relative" data-color="#EDE0D4">
+        <div class="grid grid-cols-12 w-full items-center gap-6 md:gap-12">
+            <div class="col-span-12 lg:col-span-8 relative">
+                <h1 class="giant-text italic relative !z-5">WEB<br><span class="ml-8 md:ml-32 not-italic block mt-2">DESIGN</span></h1>
+            </div>
+            <div class="col-span-12 lg:col-span-4 mt-32 lg:mt-0">
+                <div class="hero-anchors space-y-4 md:space-y-6" id="hero-menu">
+                    <a href="#metamundi" class="md:ml-0">01. MetaMundi</a>
+                    <a href="#mpf" class="md:ml-8">02. Meu Primeiro Festival</a>
+                    <a href="#usina" class="md:ml-16">03. Usina Sons</a>
+                    <a href="#dellarte" class="md:ml-24">04. Digital Dellarte</a>
+                    <a href="#praia" class="md:ml-32">05. Praia Rio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main id="projetos-wrapper">
+        <section id="metamundi" class="py-32 md:py-60 px-6 group relative" data-color="#E6CCB2">
+            <div class="max-w-7xl mx-auto relative">
+                <h2 class="giant-text top-0 left-0 -translate-y-1/2 parallax-word">TECH</h2>
+                <div class="grid grid-cols-12 w-full items-center">
+                    <a href="https://www.metamundi.tech/" target="_blank" class="col-span-12 md:col-span-8 img-container h-[400px] md:h-[600px] shadow-xl block">
+                        <img src="./Imagens_WebDesing/Metamundi_Site.gif" alt="MetaMundi">
+                    </a>
+                    <div class="col-span-12 md:col-span-4 mt-6 md:-ml-12">
+                        <div class="desc-box">
+                            <p><strong>MetaMundi:</strong> Hub de arquitetura virtual e Web3 focado em inovação tecnológica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mpf" class="py-32 md:py-60 px-6 group relative" data-color="#DDB892">
+            <div class="max-w-7xl mx-auto relative">
+                <h2 class="giant-text top-0 right-0 -translate-y-1/2 parallax-word">KIDS</h2>
+                <div class="grid grid-cols-12 w-full items-center flex-col-reverse md:flex-row-reverse">
+                    <a href="https://www.meuprimeirofestival.com.br/" target="_blank" class="col-span-12 md:col-span-8 img-container h-[400px] md:h-[550px] shadow-2xl block">
+                        <img src="./Imagens_WebDesing/MPF_Home.png" alt="MPF">
+                    </a>
+                    <div class="col-span-12 md:col-span-4 mt-6 md:-mr-12 text-right">
+                        <div class="desc-box border-l-0 border-r ml-auto">
+                            <p><strong>Meu Primeiro Festival:</strong> Ecossistema digital que une ludicidade e clareza para crianças.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="usina" class="py-32 md:py-60 px-6 group relative" data-color="#EDE0D4">
+            <div class="max-w-7xl mx-auto relative">
+                <h2 class="giant-text bottom-0 left-0 translate-y-1/2 parallax-word">AUDIO</h2>
+                <div class="grid grid-cols-12 w-full items-center">
+                    <a href="https://usinasons.com" target="_blank" class="col-span-12 md:col-span-9 img-container gif-contain h-[400px] md:h-[550px] shadow-xl block">
+                        <img src="./Imagens_WebDesing/Usina_Sons_Site.gif" alt="Usina Sons">
+                    </a>
+                    <div class="col-span-12 md:col-span-3 mt-6 md:-ml-12">
+                        <div class="desc-box">
+                            <p><strong>Usina Sons:</strong> Portfólio de áudio com curadoria editorial e foco em sound design.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dellarte" class="py-32 md:py-60 px-6 group relative" data-color="#E3D5CA">
+            <div class="max-w-6xl mx-auto relative">
+                <h2 class="giant-text top-1/2 left-0 -translate-x-1/4 md:-translate-x-1/2 -translate-y-1/2 parallax-word">ARTE</h2>
+                <div class="grid grid-cols-12 w-full items-center">
+                    <div class="hidden md:block md:col-span-2"></div>
+                    <div class="col-span-12 md:col-span-7 img-container h-[400px] md:h-[600px] shadow-2xl">
+                        <img src="./Imagens_WebDesing/Digital_Dellarte_Site.gif" alt="Digital Dellarte">
+                    </div>
+                    <div class="col-span-12 md:col-span-3 mt-6 md:-ml-12">
+                        <div class="desc-box">
+                            <p><strong>Digital Dellarte:</strong> Design elegante voltado para o mercado de artes e curadoria digital.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="praia" class="py-32 md:py-60 px-6 group relative" data-color="#D5BDAF">
+            <div class="max-w-7xl mx-auto relative">
+                <h2 class="giant-text top-0 right-4 md:right-10 -translate-y-1/2 parallax-word">PRAIA</h2>
+                <div class="grid grid-cols-12 w-full items-center flex-col-reverse md:flex-row-reverse">
+                    <div class="col-span-12 md:col-span-8 img-container h-[400px] md:h-[550px] shadow-xl">
+                        <img src="./Imagens_WebDesing/Praia_Rio_Site.gif" alt="Festival Praia Rio">
+                    </div>
+                    <div class="col-span-12 md:col-span-4 mt-6 md:-mr-12 text-right">
+                        <div class="desc-box border-l-0 border-r ml-auto">
+                            <p><strong>Festival Praia Rio:</strong> Experiência digital focada em sustentabilidade e cultura carioca.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contato" class="bg-[#7F5539] text-[#EDE0D4] pt-32 pb-16 px-6 md:px-12 lg:px-32 relative z-50">
+        <p id="footer-label" class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-8 opacity-50">Contato</p>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+            <button onclick="copyEmail()" class="text-xl md:text-5xl font-serif italic border-b border-[#EDE0D4] pb-2 hover:opacity-60 transition tracking-tighter text-left uppercase break-all">
+                miguelmermelstein@outlook.com
+            </button>
+            <p class="text-[9px] tracking-[0.3em] opacity-40 uppercase">© 2026 Miguel Mermelstein</p>
+        </div>
+    </footer>
+
+    <script>
+        const handleScroll = () => {
+            const scrolled = window.pageYOffset;
+            const vh = window.innerHeight;
+
+            const projectSections = document.querySelectorAll('.group');
+            projectSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < vh && rect.bottom > 0) {
+                    const word = section.querySelector('.parallax-word');
+                    const speed = window.innerWidth > 768 ? 0.15 : 0.08;
+                    word.style.transform = `translateY(${rect.top * speed}px)`;
+                    
+                    if (rect.top < vh / 2 && rect.bottom > vh / 2) {
+                        const color = section.getAttribute('data-color');
+                        if (color) document.body.style.backgroundColor = color;
+                    }
+                }
+            });
+
+            const hero = document.querySelector('section[data-color="#EDE0D4"]');
+            if (hero.getBoundingClientRect().bottom > vh / 2) {
+                document.body.style.backgroundColor = "#EDE0D4";
+            }
+        };
+
+        window.addEventListener('scroll', () => {
+            window.requestAnimationFrame(handleScroll);
+        });
+        
+        window.addEventListener('load', handleScroll);
+
+        const menu = document.getElementById('hero-menu');
+        window.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 1024) {
+                const x = (window.innerWidth / 2 - e.pageX) / 70;
+                const y = (window.innerHeight / 2 - e.pageY) / 70;
+                menu.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        });
+
+        function copyEmail() {
+            navigator.clipboard.writeText("miguelmermelstein@outlook.com").then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            });
+        }
+
+        // Função para animar o rótulo do footer
+        function animateFooterLabel() {
+            const label = document.getElementById('footer-label');
+            setTimeout(() => {
+                label.classList.add('animate-grow');
+                setTimeout(() => {
+                    label.classList.remove('animate-grow');
+                }, 600);
+            }, 300); // Delay para sincronizar com o fim do scroll
+        }
+    </script>
+</body>
+</html>
