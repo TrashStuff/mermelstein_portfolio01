@@ -2,68 +2,70 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Métricas de Impacto | Miguel Mermelstein</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #EDE0D4; color: #7F5539; font-family: 'Inter', sans-serif; }
         h1, h2 { font-family: 'Playfair Display', serif; }
-        .giant-text { font-size: 8rem; line-height: 0.8; letter-spacing: -0.05em; font-weight: 900; text-transform: uppercase; }
-        .stat-card { border-top: 2px solid #7F5539; padding: 2rem 0; }
-        @media print {
-            body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-            .no-print { display: none; }
+        
+        /* Ajuste responsivo para o texto gigante */
+        .giant-text { 
+            font-size: clamp(4rem, 15vw, 8rem); 
+            line-height: 0.8; 
+            letter-spacing: -0.05em; 
+            font-weight: 900; 
+            text-transform: uppercase; 
         }
+        
+        .stat-card { border-top: 2px solid #7F5539; padding: 2rem 0; }
     </style>
 </head>
-<body class="p-12">
+<body class="p-6 md:p-12">
 
-    <header class="flex justify-between items-start mb-32">
-        <div class="text-2xl font-bold uppercase italic leading-none">
+    <header class="flex flex-col md:flex-row justify-between items-start mb-20 md:mb-32 gap-4">
+        <div class="text-xl md:text-2xl font-bold uppercase italic leading-none">
             Miguel<br>Mermelstein
         </div>
-        <div class="text-right text-xs font-black uppercase tracking-widest">
+        <div class="text-left md:text-right text-[10px] md:text-xs font-black uppercase tracking-widest">
             Data-Driven Design<br>Relatório 2026
         </div>
     </header>
 
-    <main>
-        <div class="mb-40">
+    <main class="max-w-7xl mx-auto">
+        <div class="mb-24 md:mb-40">
             <h1 class="giant-text italic">DATA</h1>
-            <h1 class="giant-text ml-32">IMPACT</h1>
+            <h1 class="giant-text ml-8 md:ml-32">IMPACT</h1>
         </div>
 
-        <div class="grid grid-cols-2 gap-x-20 gap-y-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 md:gap-y-12">
             <div class="stat-card">
-                <div class="text-6xl font-black italic tracking-tighter">92.762</div>
-                <div class="uppercase text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Visualizações (Digital Dellarte)</div>
+                <div class="text-5xl md:text-6xl font-black italic tracking-tighter">92.762</div>
+                <div class="uppercase text-[9px] md:text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Visualizações (Digital Dellarte)</div>
             </div>
             <div class="stat-card">
-                <div class="text-6xl font-black italic tracking-tighter">39:42</div>
-                <div class="uppercase text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Minutos de Retenção Média</div>
+                <div class="text-5xl md:text-6xl font-black italic tracking-tighter">39:42</div>
+                <div class="uppercase text-[9px] md:text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Minutos de Retenção Média</div>
             </div>
             <div class="stat-card">
-                <div class="text-6xl font-black italic tracking-tighter">27.2%</div>
-                <div class="uppercase text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Taxa de Cliques (CTR)</div>
+                <div class="text-5xl md:text-6xl font-black italic tracking-tighter">27.2%</div>
+                <div class="uppercase text-[9px] md:text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Taxa de Cliques (CTR)</div>
             </div>
             <div class="stat-card">
-                <div class="text-6xl font-black italic tracking-tighter">4min 01s</div>
-                <div class="uppercase text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Retenção Média Global</div>
+                <div class="text-5xl md:text-6xl font-black italic tracking-tighter">4min 01s</div>
+                <div class="uppercase text-[9px] md:text-[10px] font-black tracking-[0.3em] mt-4 opacity-70">Retenção Média Global</div>
             </div>
         </div>
 
-        <div class="mt-40 p-8 border border-[#7F5539] border-opacity-20 italic text-xl">
-            "Interfaces que não apenas atraem, mas retêm. Os números refletem uma estratégia de UX focada em conteúdo imersivo e conversão real."
+        <div class="mt-20 md:mt-40 p-6 md:p-8 border border-[#7F5539] border-opacity-20 italic text-lg md:text-xl">
+            Interfaces que não apenas atraem, mas retêm. Os números refletem uma estratégia de UX focada em conteúdo imersivo e conversão real.
         </div>
     </main>
 
-    <footer class="mt-32 text-[10px] font-bold uppercase tracking-widest opacity-50">
+    <footer class="mt-24 md:mt-32 text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-50 pb-12">
         © 2026 Miguel Mermelstein — miguelmermelstein@outlook.com
     </footer>
-
-    <div class="no-print fixed bottom-10 right-10 bg-[#7F5539] text-[#EDE0D4] p-4 text-xs font-bold rounded shadow-2xl">
-        Pressione Ctrl + P (ou Cmd + P) e salve como PDF.
-    </div>
 
 </body>
 </html>
