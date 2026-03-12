@@ -11,7 +11,11 @@
             --text-color: #ffffff;
             --accent-color: #cfcfcf;
             --gold-color: #d4af37;
+            --header-height: 110px;
+            --selector-height: 80px;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -22,21 +26,22 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ── HEADER ── */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 40px 60px;
+            height: var(--header-height);
+            padding: 0 60px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             z-index: 1000;
-            box-sizing: border-box;
             background-color: var(--bg-color);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .brand .logo { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 1.8rem; margin-bottom: 5px; }
+        .brand .logo { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 1.8rem; margin-bottom: 4px; }
         .brand .sub-logo { font-size: 0.75rem; color: #ccc; font-weight: 300; line-height: 1.4; }
         .brand a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); transition: 0.3s; }
         .brand a:hover { border-bottom: 1px solid #fff; }
@@ -45,88 +50,92 @@
         .name-part { transition: opacity 0.4s ease, filter 0.4s ease; display: inline-block; }
         .name-interactive:hover .name-part:not(:hover) { opacity: 0.2; filter: blur(0.7px); }
 
-        .nav-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .filters { display: flex; gap: 25px; } 
-        .lang-switch { display: flex; gap: 10px; opacity: 0.4; transition: 0.3s; }
-        .lang-switch:hover { opacity: 1; }
-
-       .category-nav {
+        /* ── LANG SWITCH ── */
+        .lang-switch {
             display: flex;
-            justify-content: center;
+            gap: 10px;
+            opacity: 0.4;
+            transition: 0.3s;
             align-items: center;
-            gap: 25px;
-            margin-top: 25vh;
-            margin-bottom: 5vh; /* Diminuí um pouco para os projetos subirem mais */
-            z-index: 100;
+        }
+        .lang-switch:hover { opacity: 1; }
+        .lang-btn {
+            background: none; border: none; color: #fff;
+            font-family: 'Inter', sans-serif; text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 2px; cursor: pointer;
+            transition: 0.4s; padding: 0; opacity: 0.4;
+        }
+        .lang-btn.active { opacity: 1; font-weight: 600; }
+
+        /* ── TAB SELECTOR — persistent strip between header and content ── */
+        #tab-selector {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            height: var(--selector-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tab-choice {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.25);
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.85rem, 2vw, 1.1rem);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            cursor: pointer;
+            padding: 0 40px;
+            line-height: 1;
+            transition: color 0.35s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-choice.active { color: rgba(255,255,255,1); }
+        .tab-choice:not(.active):hover { color: rgba(255,255,255,0.6); }
+
+        .selector-divider {
+            width: 1px;
+            height: 22px;
+            background: rgba(255,255,255,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── CONTENT AREA ── */
+        #content-wrapper {
+            margin-top: calc(var(--header-height) + var(--selector-height));
+            overflow: hidden;
             position: relative;
         }
 
-        .category-nav .filter-btn {
-            background: none; border: none; /* Garante que não tenha bordas */
-            font-size: 3.5vw;
-            font-weight: 300;
-            letter-spacing: 4px;
-            color: #666; /* Um cinza bem escuro para o inativo */
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.4s ease;
-        }
-
-        .category-nav .filter-btn.active {
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .category-nav .filter-btn:hover {
-            color: #666;
-        }
-
-        .category-nav .separator {
-            font-size: 3vw;
-            color: #222; /* Separador bem sutil */
-            font-weight: 300;
-            user-select: none;
-        }
-
-        /* --- CORREÇÕES NA ESTRUTURA --- */
-        .main-content { 
-            margin-top: 0; /* Tiramos a margin-top pois o .category-nav agora segura o espaço */
-            padding-bottom: 10vh;
-            position: relative; /* Importante para as animações acontecerem no lugar */
-        } 
-
-        /* --- LÓGICA DE ANIMAÇÃO DOS CONTEÚDOS --- */
-        /* Estado inicial (quando está oculto, mas no DOM) */
-        .tab-content { 
-            display: none;
+        .tab-content {
+            width: 100%;
+            padding-bottom: 100px;
+            position: absolute;
+            top: 0; left: 0;
+            transform: translateX(100%);
             opacity: 0;
-            transform: translateX(100px); /* Vem da direita */
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+            will-change: transform, opacity;
         }
 
-        /* Estado Ativo (visível) */
-        .tab-content.active { 
-            display: block;
+        .tab-content.active {
+            position: relative;
+            transform: translateX(0);
             opacity: 1;
-            transform: translateX(0); /* Fica no centro */
+            pointer-events: all;
         }
 
-        /* Estado "Indo Embora" (Ocultando o atual) */
-        .tab-content.slide-out {
-            display: block;
-            opacity: 0;
-            transform: translateX(-100px); /* Desliza para a esquerda */
-        }
-
-        .filter-btn, .lang-btn {
-            background: none; border: none; color:#666;
-            font-family: 'Inter', sans-serif; text-transform: uppercase;
-            font-size: 0.75rem; letter-spacing: 2px; cursor: pointer;
-            transition: 0.4s; padding: 0;
-        }
-        .filter-btn.active, .lang-btn.active { color: var(--text-color); font-weight: 600; }
-
+        /* ── PROJECTS ── */
         .project-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 35px 60px; border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -175,11 +184,12 @@
 
         .section-label {
             padding: 80px 60px 20px; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 3px; color: #666;
+            text-transform: uppercase; letter-spacing: 3px; color: #444;
         }
 
         .project-list:hover .project-item:not(:hover) { opacity: 0.15; }
 
+        /* ── REVEAL IMAGE ── */
         .reveal-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
             width: 450px; height: 300px; pointer-events: none; z-index: 5;
@@ -188,26 +198,21 @@
         .reveal-container.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1) rotate(-1deg); }
         .reveal-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- REGRAS MOBILE --- */
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-            header { 
-                padding: 30px 20px; 
-                flex-direction: column; 
-                align-items: center; 
-                text-align: center;
-                gap: 20px;
-                position: relative; /* Evita cobrir muito conteúdo no scroll mobile */
+            :root {
+                --header-height: 90px;
+                --selector-height: 60px;
             }
 
-            .nav-controls { align-items: center; width: 100%; }
-            .brand .logo { font-size: 1.4rem; }
-            .main-content { margin-top: 5vh; }
+            header { padding: 0 20px; }
+            .brand .logo { font-size: 1.2rem; }
 
-            .category-nav { margin-top: 18vh; margin-bottom: 5vh; gap: 10px; }
-            .category-nav .filter-btn, .category-nav .separator { font-size: 1.8rem; letter-spacing: 2px; }
-            /* Deixa a animação de slide um pouco mais suave/curta nas telinhas */
-            .tab-content { transform: translateX(40px); }
-            .tab-content.slide-out { transform: translateX(-40px); }
+            .tab-choice {
+                padding: 0 24px;
+                font-size: clamp(0.75rem, 3.5vw, 0.95rem);
+                letter-spacing: 0.2em;
+            }
 
             .project-item {
                 flex-direction: column;
@@ -216,19 +221,16 @@
                 overflow: hidden;
             }
 
-            /* Imagens de fundo no Mobile a 50% */
             .project-item[data-img]::before {
                 content: "";
                 position: absolute;
                 top: 0; left: 0; width: 100%; height: 100%;
                 background-size: cover;
                 background-position: center;
-                opacity: 0.3; /* Ajustado para 30-50% para garantir leitura do texto */
+                opacity: 0.3;
                 z-index: -1;
-                transition: 0.3s;
             }
-            
-            /* Seletores específicos para as imagens baseados no atributo */
+
             .project-item[data-img="carde.jpg"]::before { background-image: url('Imagens/carde.jpg'); }
             .project-item[data-img="leda.jpg"]::before { background-image: url('Imagens/leda.jpg'); }
             .project-item[data-img="cerco.jpg"]::before { background-image: url('Imagens/cerco.jpg'); }
@@ -238,63 +240,51 @@
             .project-item[data-img="memorias.jpg"]::before { background-image: url('Imagens/memorias.jpg'); }
 
             .project-title { font-size: 10vw; margin-bottom: 5px; }
-            .project-detail { 
-                text-align: left; 
-                min-width: auto; 
-                height: auto; 
-                margin-top: 5px; 
-                overflow: visible; 
-            }
-            
-            .award-winner .award-text { 
-                position: relative; 
-                transform: none; 
-                opacity: 1; 
-                margin-top: 10px;
-                font-size: 0.8rem;
-            }
+            .project-detail { text-align: left; min-width: auto; height: auto; margin-top: 5px; overflow: visible; }
+            .award-winner .award-text { position: relative; transform: none; opacity: 1; margin-top: 10px; font-size: 0.8rem; }
 
             .compact-list .project-item { padding: 15px 20px; }
             .compact-list .project-title { font-size: 1.3rem; }
             .compact-list .project-detail { flex-direction: column; align-items: flex-start; gap: 2px; }
-            
-            .reveal-container { display: none; } /* Desativa o container flutuante no mobile */
+
+            .reveal-container { display: none; }
         }
     </style>
 </head>
 <body>
 
-<header>
+    <header>
         <div class="brand">
             <div class="logo name-interactive">
                 <span class="name-part">Miguel </span>
                 <span class="name-part">Mer</span><span class="name-part">mel</span><span class="name-part">stein</span>
             </div>
-            <div class="sub-logo" id="sub-logo-text" data-pt="Sound Designer & Compositor<br>Sócio da <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>" data-en="Sound Designer & Composer<br>Partner at <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>">
+            <div class="sub-logo" id="sub-logo-text"
+                data-pt="Sound Designer & Compositor<br>Sócio da <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>"
+                data-en="Sound Designer & Composer<br>Partner at <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>">
                 Sound Designer & Compositor<br>Sócio da <a href="http://usinasons.com/" target="_blank">Usina Sons</a>
             </div>
         </div>
-        <div class="nav-controls">
-            <div class="lang-switch">
-                <button class="lang-btn active" onclick="setLanguage('pt')">PT</button>
-                <span style="font-size: 0.7rem; color: #666;">|</span>
-                <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-            </div>
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLanguage('pt')">PT</button>
+            <span style="font-size: 0.7rem; color: #444;">|</span>
+            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
         </div>
     </header>
 
-    <div class="category-nav">
-        <button class="filter-btn active" onclick="showTab('audio', this)" data-pt="Audiovisual" data-en="Audiovisual">AUDIOVISUAL</button>
-        <span class="separator">|</span>
-        <button class="filter-btn" onclick="showTab('music', this)" data-pt="Música" data-en="Music">MÚSICA</button>
+    <!-- PERSISTENT SELECTOR STRIP -->
+    <div id="tab-selector">
+        <button class="tab-choice active" id="btn-audio" onclick="switchTab('audio')" data-pt="Áudio" data-en="Audio">Áudio</button>
+        <div class="selector-divider"></div>
+        <button class="tab-choice" id="btn-music" onclick="switchTab('music')" data-pt="Música" data-en="Music">Música</button>
     </div>
 
     <div class="reveal-container" id="reveal">
         <img src="" id="reveal-img">
     </div>
 
-    <div class="main-content">
-        
+    <div id="content-wrapper">
+
         <div id="audio" class="tab-content active">
             <div class="project-list">
                 <a href="https://www.carde.org/pt-BR" target="_blank" class="project-item" data-img="carde.jpg">
@@ -306,7 +296,6 @@
                         </span>
                     </div>
                 </a>
-
                 <a href="https://camisapretafilmes.com.br/leda/" target="_blank" class="project-item" data-img="leda.jpg">
                     <h2 class="project-title">Leda</h2>
                     <div class="project-detail">
@@ -316,7 +305,6 @@
                         </span>
                     </div>
                 </a>
-
                 <a href="https://www.imdb.com/pt/title/tt14355682/" target="_blank" class="project-item" data-img="cerco.jpg">
                     <h2 class="project-title">Cerco</h2>
                     <div class="project-detail">
@@ -326,7 +314,6 @@
                         </span>
                     </div>
                 </a>
-
                 <a href="https://www.behance.net/gallery/82121293/Longa-metragem-Memorias-do-Fogo" target="_blank" class="project-item" data-img="memorias.jpg">
                     <h2 class="project-title">Memórias</h2>
                     <div class="project-detail">
@@ -336,7 +323,6 @@
                         </span>
                     </div>
                 </a>
-                
                 <a href="https://www.imdb.com/pt/title/tt10883312/" target="_blank" class="project-item award-winner" data-img="alder.jpg">
                     <h2 class="project-title">Adler</h2>
                     <div class="project-detail">
@@ -350,7 +336,6 @@
                         </span>
                     </div>
                 </a>
-
                 <a href="https://www.salvadordabahia.com/experiencias/casa-do-carnaval/" target="_blank" class="project-item" data-img="carnaval.jpg">
                     <h2 class="project-title">Carnaval</h2>
                     <div class="project-detail">
@@ -360,7 +345,6 @@
                         </span>
                     </div>
                 </a>
-
                 <a href="https://mubi.com/pt/br/films/the-eye-of-the-dog" target="_blank" class="project-item award-winner" data-img="olho_do_cao.jpg">
                     <h2 class="project-title">Olho do Cão</h2>
                     <div class="project-detail">
@@ -409,65 +393,71 @@
     </div>
 
     <script>
-        let isAnimating = false; // Impede duplo clique rápido
+        let currentTab = 'audio';
 
-                function showTab(tabId, btn) {
-                    if (isAnimating || (btn && btn.classList.contains('active'))) return;
-                    isAnimating = true;
+        function switchTab(newTabId) {
+            if (newTabId === currentTab) return;
 
-                    const currentTab = document.querySelector('.tab-content.active');
-                    const nextTab = document.getElementById(tabId);
+            const outgoing = document.getElementById(currentTab);
+            const incoming = document.getElementById(newTabId);
+            const goingRight = newTabId === 'music';
+            const wrapper = document.getElementById('content-wrapper');
 
-                    // Atualiza visual do Menu Principal
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    if(btn) btn.classList.add('active');
+            // Lock wrapper height during transition
+            wrapper.style.minHeight = outgoing.offsetHeight + 'px';
 
-                    if (currentTab && currentTab !== nextTab) {
-                        // 1. Inicia o Slide-Out do painel antigo para a esquerda
-                        currentTab.classList.remove('active');
-                        currentTab.classList.add('slide-out');
+            // Animate out
+            outgoing.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease';
+            outgoing.style.transform = goingRight ? 'translateX(-60px)' : 'translateX(60px)';
+            outgoing.style.opacity = '0';
+            outgoing.style.pointerEvents = 'none';
 
-                        // Espera a animação do CSS terminar (400ms)
-                        setTimeout(() => {
-                            currentTab.classList.remove('slide-out');
-                            currentTab.style.display = 'none';
+            // Prepare incoming (snap, no transition)
+            incoming.style.transition = 'none';
+            incoming.style.position = 'absolute';
+            incoming.style.top = '0'; incoming.style.left = '0'; incoming.style.width = '100%';
+            incoming.style.transform = goingRight ? 'translateX(60px)' : 'translateX(-60px)';
+            incoming.style.opacity = '0';
+            incoming.style.display = 'block';
+            incoming.style.pointerEvents = 'none';
 
-                            // 2. Prepara o painel novo para chegar da direita
-                            nextTab.style.display = 'block';
-                            // Truque para o navegador refazer o layout e não "pular" a transição
-                            void nextTab.offsetWidth;
-                            
-                            // 3. Executa a entrada do novo
-                            nextTab.classList.add('active');
-                            
-                            setTimeout(() => { isAnimating = false; }, 400); // Libera o sistema
-                        }, 400);
-                    } else {
-                        // Previne erros se a página for carregada pela primeira vez
-                        nextTab.style.display = 'block';
-                        void nextTab.offsetWidth;
-                        nextTab.classList.add('active');
-                        isAnimating = false;
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                }
+            incoming.offsetHeight; // force reflow
+
+            // Animate in
+            incoming.style.transition = 'transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.45s ease';
+            incoming.style.transform = 'translateX(0)';
+            incoming.style.opacity = '1';
+
+            setTimeout(() => {
+                outgoing.classList.remove('active');
+                outgoing.removeAttribute('style');
+                incoming.classList.add('active');
+                incoming.removeAttribute('style');
+                wrapper.style.minHeight = '';
+                currentTab = newTabId;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 560);
+
+            document.querySelectorAll('.tab-choice').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + newTabId).classList.add('active');
+        }
 
         function setLanguage(lang) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
-
             document.querySelectorAll('[data-pt]').forEach(el => {
                 el.innerHTML = el.getAttribute('data-' + lang);
             });
         }
 
+        // Reveal on hover
         const items = document.querySelectorAll('.project-item');
         const reveal = document.getElementById('reveal');
         const revealImg = document.getElementById('reveal-img');
 
         items.forEach(item => {
             item.addEventListener('mouseenter', () => {
-                if (window.innerWidth > 768) { // Só ativa o reveal se não for mobile
+                if (window.innerWidth > 768) {
                     const img = item.getAttribute('data-img');
                     if (img) { revealImg.src = `Imagens/${img}`; reveal.classList.add('active'); }
                 }
