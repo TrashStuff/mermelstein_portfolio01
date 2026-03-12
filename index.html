@@ -50,17 +50,82 @@
         .lang-switch { display: flex; gap: 10px; opacity: 0.4; transition: 0.3s; }
         .lang-switch:hover { opacity: 1; }
 
+       .category-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-top: 25vh;
+            margin-bottom: 5vh; /* Diminuí um pouco para os projetos subirem mais */
+            z-index: 100;
+            position: relative;
+        }
+
+        .category-nav .filter-btn {
+            background: none; border: none; /* Garante que não tenha bordas */
+            font-size: 3.5vw;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: #666; /* Um cinza bem escuro para o inativo */
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.4s ease;
+        }
+
+        .category-nav .filter-btn.active {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .category-nav .filter-btn:hover {
+            color: #666;
+        }
+
+        .category-nav .separator {
+            font-size: 3vw;
+            color: #222; /* Separador bem sutil */
+            font-weight: 300;
+            user-select: none;
+        }
+
+        /* --- CORREÇÕES NA ESTRUTURA --- */
+        .main-content { 
+            margin-top: 0; /* Tiramos a margin-top pois o .category-nav agora segura o espaço */
+            padding-bottom: 10vh;
+            position: relative; /* Importante para as animações acontecerem no lugar */
+        } 
+
+        /* --- LÓGICA DE ANIMAÇÃO DOS CONTEÚDOS --- */
+        /* Estado inicial (quando está oculto, mas no DOM) */
+        .tab-content { 
+            display: none;
+            opacity: 0;
+            transform: translateX(100px); /* Vem da direita */
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Estado Ativo (visível) */
+        .tab-content.active { 
+            display: block;
+            opacity: 1;
+            transform: translateX(0); /* Fica no centro */
+        }
+
+        /* Estado "Indo Embora" (Ocultando o atual) */
+        .tab-content.slide-out {
+            display: block;
+            opacity: 0;
+            transform: translateX(-100px); /* Desliza para a esquerda */
+        }
+
         .filter-btn, .lang-btn {
-            background: none; border: none; color: #444;
+            background: none; border: none; color:#666;
             font-family: 'Inter', sans-serif; text-transform: uppercase;
             font-size: 0.75rem; letter-spacing: 2px; cursor: pointer;
             transition: 0.4s; padding: 0;
         }
         .filter-btn.active, .lang-btn.active { color: var(--text-color); font-weight: 600; }
-
-        .main-content { margin-top: 35vh; padding-bottom: 10vh; } 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
         .project-item {
             display: flex; justify-content: space-between; align-items: center;
@@ -110,7 +175,7 @@
 
         .section-label {
             padding: 80px 60px 20px; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 3px; color: #444;
+            text-transform: uppercase; letter-spacing: 3px; color: #666;
         }
 
         .project-list:hover .project-item:not(:hover) { opacity: 0.15; }
@@ -137,6 +202,12 @@
             .nav-controls { align-items: center; width: 100%; }
             .brand .logo { font-size: 1.4rem; }
             .main-content { margin-top: 5vh; }
+
+            .category-nav { margin-top: 18vh; margin-bottom: 5vh; gap: 10px; }
+            .category-nav .filter-btn, .category-nav .separator { font-size: 1.8rem; letter-spacing: 2px; }
+            /* Deixa a animação de slide um pouco mais suave/curta nas telinhas */
+            .tab-content { transform: translateX(40px); }
+            .tab-content.slide-out { transform: translateX(-40px); }
 
             .project-item {
                 flex-direction: column;
@@ -193,7 +264,7 @@
 </head>
 <body>
 
-    <header>
+<header>
         <div class="brand">
             <div class="logo name-interactive">
                 <span class="name-part">Miguel </span>
@@ -204,17 +275,19 @@
             </div>
         </div>
         <div class="nav-controls">
-            <div class="filters">
-                <button class="filter-btn active" onclick="showTab('audio')" data-pt="Áudio" data-en="Audio">Áudio</button>
-                <button class="filter-btn" onclick="showTab('music')" data-pt="Música" data-en="Music">Música</button>
-            </div>
             <div class="lang-switch">
                 <button class="lang-btn active" onclick="setLanguage('pt')">PT</button>
-                <span style="font-size: 0.7rem; color: #444;">|</span>
+                <span style="font-size: 0.7rem; color: #666;">|</span>
                 <button class="lang-btn" onclick="setLanguage('en')">EN</button>
             </div>
         </div>
     </header>
+
+    <div class="category-nav">
+        <button class="filter-btn active" onclick="showTab('audio', this)" data-pt="Audiovisual" data-en="Audiovisual">AUDIOVISUAL</button>
+        <span class="separator">|</span>
+        <button class="filter-btn" onclick="showTab('music', this)" data-pt="Música" data-en="Music">MÚSICA</button>
+    </div>
 
     <div class="reveal-container" id="reveal">
         <img src="" id="reveal-img">
@@ -336,13 +409,48 @@
     </div>
 
     <script>
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-            window.scrollTo(0, 0);
-        }
+        let isAnimating = false; // Impede duplo clique rápido
+
+                function showTab(tabId, btn) {
+                    if (isAnimating || (btn && btn.classList.contains('active'))) return;
+                    isAnimating = true;
+
+                    const currentTab = document.querySelector('.tab-content.active');
+                    const nextTab = document.getElementById(tabId);
+
+                    // Atualiza visual do Menu Principal
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    if(btn) btn.classList.add('active');
+
+                    if (currentTab && currentTab !== nextTab) {
+                        // 1. Inicia o Slide-Out do painel antigo para a esquerda
+                        currentTab.classList.remove('active');
+                        currentTab.classList.add('slide-out');
+
+                        // Espera a animação do CSS terminar (400ms)
+                        setTimeout(() => {
+                            currentTab.classList.remove('slide-out');
+                            currentTab.style.display = 'none';
+
+                            // 2. Prepara o painel novo para chegar da direita
+                            nextTab.style.display = 'block';
+                            // Truque para o navegador refazer o layout e não "pular" a transição
+                            void nextTab.offsetWidth;
+                            
+                            // 3. Executa a entrada do novo
+                            nextTab.classList.add('active');
+                            
+                            setTimeout(() => { isAnimating = false; }, 400); // Libera o sistema
+                        }, 400);
+                    } else {
+                        // Previne erros se a página for carregada pela primeira vez
+                        nextTab.style.display = 'block';
+                        void nextTab.offsetWidth;
+                        nextTab.classList.add('active');
+                        isAnimating = false;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
 
         function setLanguage(lang) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
