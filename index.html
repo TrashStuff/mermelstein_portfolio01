@@ -9,7 +9,6 @@
         :root {
             --bg-color: #0e0e0e;
             --text-color: #ffffff;
-            --accent-color: #cfcfcf;
             --gold-color: #d4af37;
             --header-height: 110px;
             --selector-height: 80px;
@@ -29,13 +28,10 @@
         /* ── HEADER ── */
         header {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             height: var(--header-height);
             padding: 0 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
             background-color: var(--bg-color);
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -50,14 +46,7 @@
         .name-part { transition: opacity 0.4s ease, filter 0.4s ease; display: inline-block; }
         .name-interactive:hover .name-part:not(:hover) { opacity: 0.2; filter: blur(0.7px); }
 
-        /* ── LANG SWITCH ── */
-        .lang-switch {
-            display: flex;
-            gap: 10px;
-            opacity: 0.4;
-            transition: 0.3s;
-            align-items: center;
-        }
+        .lang-switch { display: flex; gap: 10px; opacity: 0.4; transition: 0.3s; align-items: center; }
         .lang-switch:hover { opacity: 1; }
         .lang-btn {
             background: none; border: none; color: #fff;
@@ -67,87 +56,61 @@
         }
         .lang-btn.active { opacity: 1; font-weight: 600; }
 
-        /* ── TAB SELECTOR — persistent strip between header and content ── */
+        /* ── TAB SELECTOR ── */
         #tab-selector {
             position: fixed;
-            top: var(--header-height);
-            left: 0;
-            width: 100%;
-            height: var(--selector-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: var(--header-height); left: 0;
+            width: 100%; height: var(--selector-height);
+            display: flex; align-items: center; justify-content: center;
             z-index: 900;
             background-color: var(--bg-color);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .tab-choice {
-            background: none;
-            border: none;
+            background: none; border: none;
             color: rgba(255,255,255,0.25);
             font-family: 'Inter', sans-serif;
             font-size: clamp(0.85rem, 2vw, 1.1rem);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            cursor: pointer;
-            padding: 0 40px;
-            line-height: 1;
+            font-weight: 500; text-transform: uppercase;
+            letter-spacing: 0.25em; cursor: pointer;
+            padding: 0 40px; line-height: 1;
             transition: color 0.35s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
+            white-space: nowrap; flex-shrink: 0;
         }
-
         .tab-choice.active { color: rgba(255,255,255,1); }
         .tab-choice:not(.active):hover { color: rgba(255,255,255,0.6); }
+        .selector-divider { width: 1px; height: 22px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
 
-        .selector-divider {
-            width: 1px;
-            height: 22px;
-            background: rgba(255,255,255,0.15);
-            flex-shrink: 0;
-        }
-
-        /* ── CONTENT AREA ── */
+        /* ── CONTENT ── */
         #content-wrapper {
             margin-top: calc(var(--header-height) + var(--selector-height));
-            overflow: hidden;
-            position: relative;
+            overflow: hidden; position: relative;
         }
 
         .tab-content {
-            width: 100%;
-            padding-bottom: 100px;
-            position: absolute;
-            top: 0; left: 0;
-            transform: translateX(100%);
-            opacity: 0;
+            width: 100%; padding-bottom: 100px;
+            position: absolute; top: 0; left: 0;
+            transform: translateX(100%); opacity: 0;
             pointer-events: none;
-            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
-            will-change: transform, opacity;
+            transition: transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.45s ease;
         }
+        .tab-content.active { position: relative; transform: translateX(0); opacity: 1; pointer-events: all; }
 
-        .tab-content.active {
-            position: relative;
-            transform: translateX(0);
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* ── PROJECTS ── */
+        /* ── PROJECT ITEMS ── */
         .project-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 35px 60px; border-bottom: 1px solid rgba(255,255,255,0.08);
-            text-decoration: none; color: inherit; position: relative; z-index: 10;
-            transition: opacity 0.3s; cursor: default;
+            color: inherit; position: relative; z-index: 10;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            user-select: none;
         }
-        a.project-item { cursor: pointer; }
 
         .project-title {
             font-size: 5.5vw; font-weight: 300; margin: 0;
-            text-transform: uppercase; line-height: 0.9; transition: 0.4s;
-            display: inline-block; position: relative;
+            text-transform: uppercase; line-height: 0.9;
+            transition: color 0.4s; display: inline-block; position: relative;
         }
 
         .award-winner:hover .project-title::after {
@@ -162,15 +125,13 @@
             display: flex; flex-direction: column; justify-content: center;
         }
 
-        .default-text, .award-text { display: block; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-
+        .default-text, .award-text { display: block; transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
         .award-text {
             position: absolute; top: 0; right: 0; bottom: 0;
             display: flex; flex-direction: column; justify-content: center;
             color: var(--gold-color); opacity: 0; transform: translateY(100%);
             white-space: nowrap;
         }
-
         .award-winner:hover .default-text { opacity: 0; transform: translateY(-100%); }
         .award-winner:hover .award-text { opacity: 1; transform: translateY(0); }
         .award-winner:hover .project-title { color: var(--gold-color); }
@@ -182,59 +143,104 @@
         .compact-list .project-detail { font-size: 0.8rem; min-width: auto; height: auto; flex-direction: row; gap: 10px; align-items: center; overflow: visible; }
         .year-tag { opacity: 0.4; font-weight: 300; }
 
-        .section-label {
-            padding: 80px 60px 20px; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 3px; color: #444;
-        }
+        .section-label { padding: 80px 60px 20px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: #666; }
 
         .project-list:hover .project-item:not(:hover) { opacity: 0.15; }
 
-        /* ── REVEAL IMAGE ── */
-        .reveal-container {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            width: 450px; height: 300px; pointer-events: none; z-index: 5;
-            opacity: 0; visibility: hidden; transition: 0.6s;
+        /* ── DESKTOP: IMAGE ── */
+        #reveal {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 420px; height: 270px;
+            transform: translate(-50%, -50%) rotate(-1.5deg) scale(0.9);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
-        .reveal-container.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1) rotate(-1deg); }
-        .reveal-container img { width: 100%; height: 100%; object-fit: cover; }
+        #reveal.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(-1.5deg) scale(1);
+        }
+        #reveal img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* ── DESKTOP: WHITE CARD ── */
+        #info-card {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 280px;
+            transform: translate(20px, calc(-100% + 30px)) scale(0.95);
+            background: #fff;
+            color: #111;
+            pointer-events: none;
+            z-index: 6;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+            padding: 24px 26px 20px;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        #info-card.visible {
+            opacity: 1;
+            transform: translate(20px, calc(-100% + 10px)) scale(1);
+            pointer-events: auto;
+        }
+
+        #info-card .card-full-title {
+            font-size: 0.6rem; text-transform: uppercase;
+            letter-spacing: 2.5px; color: #999; font-weight: 500; margin: 0;
+        }
+        #info-card .card-desc {
+            font-size: 0.82rem; line-height: 1.65;
+            font-weight: 300; color: #222; margin: 0;
+        }
+        #info-card .card-link {
+            display: inline-block; align-self: flex-start;
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 2px; color: #111; text-decoration: none;
+            border-bottom: 1px solid #111; padding-bottom: 2px;
+            font-weight: 500; transition: opacity 0.2s; margin-top: 4px;
+        }
+        #info-card .card-link:hover { opacity: 0.45; }
+
+        /* ── MOBILE DROPDOWN ── */
+        .mobile-info {
+            display: none;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
+            background: #fff; color: #111;
+        }
+        .mobile-info.open { max-height: 300px; opacity: 1; }
+        .mobile-info-inner { padding: 28px 20px 24px; display: flex; flex-direction: column; gap: 18px; }
+        .mobile-info-inner p { margin: 0; font-size: 0.85rem; line-height: 1.65; font-weight: 300; color: #222; }
+        .mobile-info-inner a.card-link {
+            align-self: flex-start; font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 2px; color: #111; text-decoration: none;
+            border-bottom: 1px solid #111; padding-bottom: 2px;
+            font-weight: 500; transition: opacity 0.2s;
+        }
+        .mobile-info-inner a.card-link:hover { opacity: 0.5; }
 
         /* ── MOBILE ── */
         @media (max-width: 768px) {
-            :root {
-                --header-height: 90px;
-                --selector-height: 60px;
-            }
-
+            :root { --header-height: 90px; --selector-height: 60px; }
             header { padding: 0 20px; }
             .brand .logo { font-size: 1.2rem; }
+            .tab-choice { padding: 0 24px; font-size: clamp(0.75rem, 3.5vw, 0.95rem); letter-spacing: 0.2em; }
 
-            .tab-choice {
-                padding: 0 24px;
-                font-size: clamp(0.75rem, 3.5vw, 0.95rem);
-                letter-spacing: 0.2em;
-            }
-
-            .project-item {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 30px 20px;
-                overflow: hidden;
-            }
+            .project-item { flex-direction: column; align-items: flex-start; padding: 30px 20px; overflow: hidden; }
 
             .project-item[data-img]::before {
-                content: "";
-                position: absolute;
+                content: ""; position: absolute;
                 top: 0; left: 0; width: 100%; height: 100%;
-                background-size: cover;
-                background-position: center;
-                opacity: 0.3;
-                z-index: -1;
+                background-size: cover; background-position: center;
+                opacity: 0.3; z-index: -1;
             }
-
-            .project-item[data-img="carde.jpg"]::before { background-image: url('Imagens/carde.jpg'); }
-            .project-item[data-img="leda.jpg"]::before { background-image: url('Imagens/leda.jpg'); }
-            .project-item[data-img="cerco.jpg"]::before { background-image: url('Imagens/cerco.jpg'); }
-            .project-item[data-img="alder.jpg"]::before { background-image: url('Imagens/alder.jpg'); }
+            .project-item[data-img="carde.jpg"]::before    { background-image: url('Imagens/carde.jpg'); }
+            .project-item[data-img="leda.jpg"]::before     { background-image: url('Imagens/leda.jpg'); }
+            .project-item[data-img="cerco.jpg"]::before    { background-image: url('Imagens/cerco.jpg'); }
+            .project-item[data-img="alder.jpg"]::before    { background-image: url('Imagens/alder.jpg'); }
             .project-item[data-img="carnaval.jpg"]::before { background-image: url('Imagens/carnaval.jpg'); }
             .project-item[data-img="olho_do_cao.jpg"]::before { background-image: url('Imagens/olho_do_cao.jpg'); }
             .project-item[data-img="memorias.jpg"]::before { background-image: url('Imagens/memorias.jpg'); }
@@ -242,12 +248,12 @@
             .project-title { font-size: 10vw; margin-bottom: 5px; }
             .project-detail { text-align: left; min-width: auto; height: auto; margin-top: 5px; overflow: visible; }
             .award-winner .award-text { position: relative; transform: none; opacity: 1; margin-top: 10px; font-size: 0.8rem; }
-
             .compact-list .project-item { padding: 15px 20px; }
             .compact-list .project-title { font-size: 1.3rem; }
             .compact-list .project-detail { flex-direction: column; align-items: flex-start; gap: 2px; }
 
-            .reveal-container { display: none; }
+            .mobile-info { display: block; }
+            #reveal, #info-card { display: none !important; }
         }
     </style>
 </head>
@@ -259,7 +265,7 @@
                 <span class="name-part">Miguel </span>
                 <span class="name-part">Mer</span><span class="name-part">mel</span><span class="name-part">stein</span>
             </div>
-            <div class="sub-logo" id="sub-logo-text"
+            <div class="sub-logo"
                 data-pt="Sound Designer & Compositor<br>Sócio da <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>"
                 data-en="Sound Designer & Composer<br>Partner at <a href='http://usinasons.com/' target='_blank'>Usina Sons</a>">
                 Sound Designer & Compositor<br>Sócio da <a href="http://usinasons.com/" target="_blank">Usina Sons</a>
@@ -267,172 +273,355 @@
         </div>
         <div class="lang-switch">
             <button class="lang-btn active" onclick="setLanguage('pt')">PT</button>
-            <span style="font-size: 0.7rem; color: #444;">|</span>
+            <span style="font-size: 0.7rem; color: #666;">|</span>
             <button class="lang-btn" onclick="setLanguage('en')">EN</button>
         </div>
     </header>
 
-    <!-- PERSISTENT SELECTOR STRIP -->
     <div id="tab-selector">
         <button class="tab-choice active" id="btn-audio" onclick="switchTab('audio')" data-pt="Áudio" data-en="Audio">Áudio</button>
         <div class="selector-divider"></div>
         <button class="tab-choice" id="btn-music" onclick="switchTab('music')" data-pt="Música" data-en="Music">Música</button>
     </div>
 
-    <div class="reveal-container" id="reveal">
-        <img src="" id="reveal-img">
+    <div id="reveal"><img src="" id="reveal-img"></div>
+    <div id="info-card">
+        <p class="card-full-title" id="card-full-title"></p>
+        <p class="card-desc" id="card-desc"></p>
+        <a class="card-link" id="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
     </div>
 
     <div id="content-wrapper">
 
+        <!-- ═══ ÁUDIO ═══ -->
         <div id="audio" class="tab-content active">
             <div class="project-list">
-                <a href="https://www.carde.org/pt-BR" target="_blank" class="project-item" data-img="carde.jpg">
+
+                <div class="project-item"
+                    data-img="carde.jpg"
+                    data-href="https://www.carde.org/pt-BR"
+                    data-full-title="Título Completo Carde"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Carde</h2>
-                    <div class="project-detail">
-                        <span class="default-text">
-                            <span class="t-desc" data-pt="Supervisor de Som" data-en="Sound Supervisor">Supervisor de Som</span>
-                            <span class="category-text t-cat" data-pt="Museu / Instalação (2025)" data-en="Museum / Installation (2025)">Museu / Instalação (2025)</span>
-                        </span>
-                    </div>
-                </a>
-                <a href="https://camisapretafilmes.com.br/leda/" target="_blank" class="project-item" data-img="leda.jpg">
+                    <div class="project-detail"><span class="default-text">
+                        <span class="t-desc" data-pt="Supervisor de Som" data-en="Sound Supervisor">Supervisor de Som</span>
+                        <span class="category-text t-cat" data-pt="Museu / Instalação (2025)" data-en="Museum / Installation (2025)">Museu / Instalação (2025)</span>
+                    </span></div>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://www.carde.org/pt-BR" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item"
+                    data-img="leda.jpg"
+                    data-href="https://camisapretafilmes.com.br/leda/"
+                    data-full-title="Título Completo Leda"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Leda</h2>
-                    <div class="project-detail">
-                        <span class="default-text">
-                            Sound Design
-                            <span class="category-text t-cat" data-pt="Longa-metragem (2023)" data-en="Feature Film (2023)">Longa-metragem (2023)</span>
-                        </span>
-                    </div>
-                </a>
-                <a href="https://www.imdb.com/pt/title/tt14355682/" target="_blank" class="project-item" data-img="cerco.jpg">
+                    <div class="project-detail"><span class="default-text">
+                        Sound Design
+                        <span class="category-text t-cat" data-pt="Longa-metragem (2023)" data-en="Feature Film (2023)">Longa-metragem (2023)</span>
+                    </span></div>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://camisapretafilmes.com.br/leda/" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item"
+                    data-img="cerco.jpg"
+                    data-href="https://www.imdb.com/pt/title/tt14355682/"
+                    data-full-title="Título Completo Cerco"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Cerco</h2>
-                    <div class="project-detail">
-                        <span class="default-text">
-                            Sound Design
-                            <span class="category-text t-cat" data-pt="Longa-metragem (2021)" data-en="Feature Film (2021)">Longa-metragem (2021)</span>
-                        </span>
-                    </div>
-                </a>
-                <a href="https://www.behance.net/gallery/82121293/Longa-metragem-Memorias-do-Fogo" target="_blank" class="project-item" data-img="memorias.jpg">
+                    <div class="project-detail"><span class="default-text">
+                        Sound Design
+                        <span class="category-text t-cat" data-pt="Longa-metragem (2021)" data-en="Feature Film (2021)">Longa-metragem (2021)</span>
+                    </span></div>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://www.imdb.com/pt/title/tt14355682/" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item"
+                    data-img="memorias.jpg"
+                    data-href="https://www.behance.net/gallery/82121293/Longa-metragem-Memorias-do-Fogo"
+                    data-full-title="Título Completo Memórias"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Memórias</h2>
-                    <div class="project-detail">
-                        <span class="default-text">
-                            Sound Design
-                            <span class="category-text t-cat" data-pt="Longa-metragem (2020)" data-en="Feature Film (2020)">Longa-metragem (2020)</span>
-                        </span>
-                    </div>
-                </a>
-                <a href="https://www.imdb.com/pt/title/tt10883312/" target="_blank" class="project-item award-winner" data-img="alder.jpg">
+                    <div class="project-detail"><span class="default-text">
+                        Sound Design
+                        <span class="category-text t-cat" data-pt="Longa-metragem (2020)" data-en="Feature Film (2020)">Longa-metragem (2020)</span>
+                    </span></div>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://www.behance.net/gallery/82121293/Longa-metragem-Memorias-do-Fogo" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item award-winner"
+                    data-img="alder.jpg"
+                    data-href="https://www.imdb.com/pt/title/tt10883312/"
+                    data-full-title="Título Completo Adler"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Adler</h2>
                     <div class="project-detail">
-                        <span class="default-text">
-                            Sound Design
-                            <span class="category-text t-cat" data-pt="Curta-metragem (2019)" data-en="Short Film (2019)">Curta-metragem (2019)</span>
-                        </span>
-                        <span class="award-text">
-                            BEST SOUND DESIGN
-                            <span class="category-text">PLAY SHORT INTERNATIONAL FILM AWARDS</span>
-                        </span>
+                        <span class="default-text">Sound Design<span class="category-text t-cat" data-pt="Curta-metragem (2019)" data-en="Short Film (2019)">Curta-metragem (2019)</span></span>
+                        <span class="award-text">BEST SOUND DESIGN<span class="category-text">PLAY SHORT INTERNATIONAL FILM AWARDS</span></span>
                     </div>
-                </a>
-                <a href="https://www.salvadordabahia.com/experiencias/casa-do-carnaval/" target="_blank" class="project-item" data-img="carnaval.jpg">
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://www.imdb.com/pt/title/tt10883312/" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item"
+                    data-img="carnaval.jpg"
+                    data-href="https://www.salvadordabahia.com/experiencias/casa-do-carnaval/"
+                    data-full-title="Título Completo Carnaval"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Carnaval</h2>
-                    <div class="project-detail">
-                        <span class="default-text">
-                            <span class="t-desc" data-pt="Assistente de Som" data-en="Sound Assistant">Assistente de Som</span>
-                            <span class="category-text t-cat" data-pt="Casa do Carnaval (2018)" data-en="Carnival Museum (2018)">Casa do Carnaval (2018)</span>
-                        </span>
-                    </div>
-                </a>
-                <a href="https://mubi.com/pt/br/films/the-eye-of-the-dog" target="_blank" class="project-item award-winner" data-img="olho_do_cao.jpg">
+                    <div class="project-detail"><span class="default-text">
+                        <span class="t-desc" data-pt="Assistente de Som" data-en="Sound Assistant">Assistente de Som</span>
+                        <span class="category-text t-cat" data-pt="Casa do Carnaval (2018)" data-en="Carnival Museum (2018)">Casa do Carnaval (2018)</span>
+                    </span></div>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://www.salvadordabahia.com/experiencias/casa-do-carnaval/" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
+                <div class="project-item award-winner"
+                    data-img="olho_do_cao.jpg"
+                    data-href="https://mubi.com/pt/br/films/the-eye-of-the-dog"
+                    data-full-title="Título Completo Olho do Cão"
+                    data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.">
                     <h2 class="project-title">Olho do Cão</h2>
                     <div class="project-detail">
-                        <span class="default-text">
-                            Sound Design
-                            <span class="category-text t-cat" data-pt="Curta-metragem (2017)" data-en="Short Film (2017)">Curta-metragem (2017)</span>
-                        </span>
-                        <span class="award-text">
-                            BEST SOUND DESIGN
-                            <span class="category-text">CINEFEST GATO PRETO</span>
-                        </span>
+                        <span class="default-text">Sound Design<span class="category-text t-cat" data-pt="Curta-metragem (2017)" data-en="Short Film (2017)">Curta-metragem (2017)</span></span>
+                        <span class="award-text">BEST SOUND DESIGN<span class="category-text">CINEFEST GATO PRETO</span></span>
                     </div>
-                </a>
+                </div>
+                <div class="mobile-info"><div class="mobile-info-inner">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
+                    <a class="card-link" href="https://mubi.com/pt/br/films/the-eye-of-the-dog" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a>
+                </div></div>
+
             </div>
 
             <div class="section-label t-label" data-pt="Outros Curta-Metragens" data-en="Other Short Films">Outros Curta-Metragens</div>
             <div class="project-list compact-list">
-                <div class="project-item"><h2 class="project-title">Pele Suja</h2><div class="project-detail"><span class="t-desc" data-pt="Mixagem & Trilha" data-en="Mixing & Score">Mixagem & Trilha</span> <span class="year-tag">2016</span></div></div>
-                <div class="project-item"><h2 class="project-title">Nada</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">Rebobine</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">Enquanto Canto</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">Quando as pedras dilatam</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">A mulher de argila</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">Abate</h2><div class="project-detail">Sound Design</div></div>
-                <div class="project-item"><h2 class="project-title">Gira</h2><div class="project-detail">Sound Design</div></div>
+                <div class="project-item" data-img="pele_suja.jpg" data-href="#" data-full-title="Título Completo Pele Suja" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Pele Suja</h2><div class="project-detail"><span class="t-desc" data-pt="Mixagem & Trilha" data-en="Mixing & Score">Mixagem & Trilha</span> <span class="year-tag">2016</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="nada.jpg" data-href="#" data-full-title="Título Completo Nada" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Nada</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="rebobine.jpg" data-href="#" data-full-title="Título Completo Rebobine" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Rebobine</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="enquanto_canto.jpg" data-href="#" data-full-title="Título Completo Enquanto Canto" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Enquanto Canto</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="pedras.jpg" data-href="#" data-full-title="Título Completo Quando as Pedras Dilatam" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Quando as pedras dilatam</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="argila.jpg" data-href="#" data-full-title="Título Completo A Mulher de Argila" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">A mulher de argila</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="abate.jpg" data-href="#" data-full-title="Título Completo Abate" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Abate</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="gira.jpg" data-href="#" data-full-title="Título Completo Gira" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Gira</h2><div class="project-detail">Sound Design</div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
             </div>
         </div>
 
+        <!-- ═══ MÚSICA ═══ -->
         <div id="music" class="tab-content">
             <div class="project-list compact-list">
-                <a href="#" target="_blank" class="project-item"><h2 class="project-title">Pira Caipira</h2><div class="project-detail"><span class="t-desc" data-pt="produção e mix" data-en="production & mix">produção e mix</span> - Pira Caipira <span class="year-tag">2025</span></div></a>
-                <div class="project-item"><h2 class="project-title">Rio Guitar Duo</h2><div class="project-detail"><span class="t-desc" data-pt="mixagem" data-en="mixing">mixagem</span> - Meu Pai (Guinga) <span class="year-tag">2024</span></div></div>
-                <a href="#" target="_blank" class="project-item"><h2 class="project-title">Dani Câmara</h2><div class="project-detail"><span class="t-desc" data-pt="produção e mix" data-en="production & mix">produção e mix</span> - Febre <span class="year-tag">2021</span></div></a>
-                <div class="project-item"><h2 class="project-title">Various (Biscoito Fino)</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Eu Sou Mulher, Eu Sou Feliz <span class="year-tag">2019</span></div></div>
-                <div class="project-item"><h2 class="project-title">Solid</h2><div class="project-detail">mix - estamos no limite <span class="year-tag">2019</span></div></div>
-                <div class="project-item"><h2 class="project-title">João Fênix</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Minha Boca Não Tem Nome <span class="year-tag">2018</span></div></div>
-                <div class="project-item"><h2 class="project-title">Unidos pelo Louvor</h2><div class="project-detail">mix - Em Adoração <span class="year-tag">2018</span></div></div>
-                <div class="project-item"><h2 class="project-title">Chico Buarque</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Caravanas <span class="year-tag">2017/18</span></div></div>
-                <div class="project-item"><h2 class="project-title">Maria Bethânia</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Mangueira, menina dos meus olhos <span class="year-tag">2017</span></div></div>
-                <div class="project-item"><h2 class="project-title">Olivia & Francis Hime</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Sem Mais Adeus <span class="year-tag">2017</span></div></div>
-                <div class="project-item"><h2 class="project-title">Tomás Improta</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Olha Pro Céu <span class="year-tag">2017</span></div></div>
-                <div class="project-item"><h2 class="project-title">Solid</h2><div class="project-detail">mix - entrando no jogo <span class="year-tag">2017</span></div></div>
+                <div class="project-item" data-img="pira_caipira.jpg" data-href="#" data-full-title="Título Completo Pira Caipira" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Pira Caipira</h2><div class="project-detail"><span class="t-desc" data-pt="produção e mix" data-en="production & mix">produção e mix</span> - Pira Caipira <span class="year-tag">2025</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="rio_guitar.jpg" data-href="#" data-full-title="Título Completo Rio Guitar Duo" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Rio Guitar Duo</h2><div class="project-detail"><span class="t-desc" data-pt="mixagem" data-en="mixing">mixagem</span> - Meu Pai (Guinga) <span class="year-tag">2024</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="dani_camara.jpg" data-href="#" data-full-title="Título Completo Dani Câmara" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Dani Câmara</h2><div class="project-detail"><span class="t-desc" data-pt="produção e mix" data-en="production & mix">produção e mix</span> - Febre <span class="year-tag">2021</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="biscoito_fino.jpg" data-href="#" data-full-title="Título Completo Various (Biscoito Fino)" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Various (Biscoito Fino)</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Eu Sou Mulher, Eu Sou Feliz <span class="year-tag">2019</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="solid.jpg" data-href="#" data-full-title="Título Completo Solid" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Solid</h2><div class="project-detail">mix - estamos no limite <span class="year-tag">2019</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="joao_fenix.jpg" data-href="#" data-full-title="Título Completo João Fênix" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">João Fênix</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Minha Boca Não Tem Nome <span class="year-tag">2018</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="unidos.jpg" data-href="#" data-full-title="Título Completo Unidos pelo Louvor" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Unidos pelo Louvor</h2><div class="project-detail">mix - Em Adoração <span class="year-tag">2018</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="chico.jpg" data-href="#" data-full-title="Título Completo Chico Buarque" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Chico Buarque</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Caravanas <span class="year-tag">2017/18</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="bethania.jpg" data-href="#" data-full-title="Título Completo Maria Bethânia" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Maria Bethânia</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Mangueira, menina dos meus olhos <span class="year-tag">2017</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="olivia.jpg" data-href="#" data-full-title="Título Completo Olivia & Francis Hime" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Olivia & Francis Hime</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Sem Mais Adeus <span class="year-tag">2017</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="tomas.jpg" data-href="#" data-full-title="Título Completo Tomás Improta" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Tomás Improta</h2><div class="project-detail"><span class="t-desc" data-pt="assistência técnica" data-en="technical assistant">assistência técnica</span> - Olha Pro Céu <span class="year-tag">2017</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
+
+                <div class="project-item" data-img="solid2.jpg" data-href="#" data-full-title="Título Completo Solid" data-desc="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod."><h2 class="project-title">Solid</h2><div class="project-detail">mix - entrando no jogo <span class="year-tag">2017</span></div></div>
+                <div class="mobile-info"><div class="mobile-info-inner"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p><a class="card-link" href="#" target="_blank" data-pt="Ver projeto →" data-en="View project →">Ver projeto →</a></div></div>
             </div>
         </div>
 
     </div>
 
     <script>
+        const isMobile = () => window.innerWidth <= 768;
+
+        const revealEl  = document.getElementById('reveal');
+        const revealImg = document.getElementById('reveal-img');
+        const cardEl    = document.getElementById('info-card');
+
+        // State
+        let cardOpen    = false;   // is the white card visible?
+        let currentItem = null;    // item currently hovered
+        let dismissedItem = null;  // item that was double-clicked (suppress until re-enter)
+        let leaveTimer  = null;
+
+        /* ── Fill display with item data ── */
+        function populate(item) {
+            const img = item.dataset.img;
+            if (img) revealImg.src = `Imagens/${img}`;
+            document.getElementById('card-full-title').textContent = item.dataset.fullTitle || '';
+            document.getElementById('card-desc').textContent       = item.dataset.desc || '';
+            document.getElementById('card-link').href              = item.dataset.href || '#';
+        }
+
+        /* ── Show / hide helpers ── */
+        function showImage()  { revealEl.classList.add('visible'); }
+        function hideImage()  { revealEl.classList.remove('visible'); }
+        function showCard()   { cardEl.classList.add('visible'); }
+        function hideCard()   { cardEl.classList.remove('visible'); }
+
+        function hideAll() {
+            hideImage();
+            hideCard();
+            cardOpen = false;
+            currentItem = null;
+        }
+
+        /* ── Hover in ── */
+        function onEnter(item) {
+            clearTimeout(leaveTimer);
+
+            // If this item was dismissed (double-clicked), ignore until fresh enter
+            if (item === dismissedItem) return;
+
+            currentItem = item;
+            populate(item);
+            showImage();
+            if (cardOpen) showCard();
+        }
+
+        /* ── Hover out ── */
+        function onLeave(item) {
+            // If the card is open, hover-out does nothing — only a second click closes
+            if (cardOpen) return;
+            // Small delay so moving between items doesn't flicker
+            leaveTimer = setTimeout(() => {
+                hideAll();
+                dismissedItem = null;
+            }, 10);
+        }
+
+        /* ── Click ── */
+        function onClick(item) {
+            if (isMobile()) return;
+
+            // Always cancel any pending leave timer so the image survives the click
+            clearTimeout(leaveTimer);
+
+            // Second click on same item (card already open): close everything
+            if (cardOpen && item === currentItem) {
+                dismissedItem = item;
+                hideAll();
+                return;
+            }
+
+            // First click: image is already showing from hover — just reveal the card
+            cardOpen = true;
+            currentItem = item;
+            populate(item);
+            showImage();
+            showCard();
+        }
+
+        /* ── Bind all project items ── */
+        document.querySelectorAll('.project-item[data-img]').forEach(item => {
+            item.addEventListener('mouseenter', () => { if (!isMobile()) onEnter(item); });
+            item.addEventListener('mouseleave', () => { if (!isMobile()) onLeave(item); });
+            item.addEventListener('click', () => {
+                if (isMobile()) {
+                    // Mobile: toggle dropdown
+                    const next = item.nextElementSibling;
+                    if (!next || !next.classList.contains('mobile-info')) return;
+                    const isOpen = next.classList.contains('open');
+                    document.querySelectorAll('.mobile-info.open').forEach(el => {
+                        el.classList.remove('open');
+                        el.previousElementSibling?.classList.remove('info-open');
+                    });
+                    if (!isOpen) {
+                        next.classList.add('open');
+                        item.classList.add('info-open');
+                        setTimeout(() => item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+                    }
+                } else {
+                    onClick(item);
+                }
+            });
+        });
+
+        /* ── TAB SWITCH ── */
         let currentTab = 'audio';
 
         function switchTab(newTabId) {
             if (newTabId === currentTab) return;
+            hideAll();
+            dismissedItem = null;
 
             const outgoing = document.getElementById(currentTab);
             const incoming = document.getElementById(newTabId);
             const goingRight = newTabId === 'music';
             const wrapper = document.getElementById('content-wrapper');
 
-            // Lock wrapper height during transition
             wrapper.style.minHeight = outgoing.offsetHeight + 'px';
 
-            // Animate out
             outgoing.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease';
-            outgoing.style.transform = goingRight ? 'translateX(-60px)' : 'translateX(60px)';
-            outgoing.style.opacity = '0';
+            outgoing.style.transform  = goingRight ? 'translateX(-200px)' : 'translateX(200px)';
+            outgoing.style.opacity    = '0';
             outgoing.style.pointerEvents = 'none';
 
-            // Prepare incoming (snap, no transition)
             incoming.style.transition = 'none';
-            incoming.style.position = 'absolute';
+            incoming.style.position   = 'absolute';
             incoming.style.top = '0'; incoming.style.left = '0'; incoming.style.width = '100%';
-            incoming.style.transform = goingRight ? 'translateX(60px)' : 'translateX(-60px)';
-            incoming.style.opacity = '0';
-            incoming.style.display = 'block';
+            incoming.style.transform  = goingRight ? 'translateX(200px)' : 'translateX(-200px)';
+            incoming.style.opacity    = '0'; incoming.style.display = 'block';
             incoming.style.pointerEvents = 'none';
-
-            incoming.offsetHeight; // force reflow
-
-            // Animate in
+            incoming.offsetHeight;
             incoming.style.transition = 'transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.45s ease';
-            incoming.style.transform = 'translateX(0)';
-            incoming.style.opacity = '1';
+            incoming.style.transform  = 'translateX(0)';
+            incoming.style.opacity    = '1';
 
             setTimeout(() => {
-                outgoing.classList.remove('active');
-                outgoing.removeAttribute('style');
-                incoming.classList.add('active');
-                incoming.removeAttribute('style');
+                outgoing.classList.remove('active'); outgoing.removeAttribute('style');
+                incoming.classList.add('active');    incoming.removeAttribute('style');
                 wrapper.style.minHeight = '';
                 currentTab = newTabId;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -442,28 +631,14 @@
             document.getElementById('btn-' + newTabId).classList.add('active');
         }
 
+        /* ── LANG ── */
         function setLanguage(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             event.currentTarget.classList.add('active');
             document.querySelectorAll('[data-pt]').forEach(el => {
                 el.innerHTML = el.getAttribute('data-' + lang);
             });
         }
-
-        // Reveal on hover
-        const items = document.querySelectorAll('.project-item');
-        const reveal = document.getElementById('reveal');
-        const revealImg = document.getElementById('reveal-img');
-
-        items.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                if (window.innerWidth > 768) {
-                    const img = item.getAttribute('data-img');
-                    if (img) { revealImg.src = `Imagens/${img}`; reveal.classList.add('active'); }
-                }
-            });
-            item.addEventListener('mouseleave', () => reveal.classList.remove('active'));
-        });
     </script>
 </body>
 </html>
